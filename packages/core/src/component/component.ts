@@ -32,7 +32,7 @@ export class Component<P = any, S = any> implements IComponent<P, S> {
   constructor(props: PropsWithEvents<PropsWithChildren<P>>) {
     this.props = props;
 
-    eventsFromProps(this.container, this.props); // добавлям обработчики событий
+    eventsFromProps(this.container, this.props); // add event handlers
 
     this.container.on("added", () => this.added());
     this.container.on("removed", () => this.removed());
@@ -73,19 +73,19 @@ export class Component<P = any, S = any> implements IComponent<P, S> {
   }
 
   update(props = this.props) {
-    this.props = props; // Обновляем пропсы
-    const rendered = this.render(); // Рендерим ноду
+    this.props = props; // update props
+    const rendered = this.render(); // render node
 
-    let children = // Получаем список дочерних нод
+    let children = // get children node
       rendered?.type?.type === Component.type
         ? [rendered]
         : rendered?.children || rendered?.props?.children || props?.children;
 
     children = children.flat(2);
 
-    const temp: any[] = []; // Определяем вреенный массив для сохранения отрендеренных нод
+    const temp: any[] = []; // temporary rendered nods
 
-    // Перебераем все дочерние ноды
+    // loop
     for (const idx in children) {
       if (!this.isMounted) {
         return this;
@@ -93,12 +93,12 @@ export class Component<P = any, S = any> implements IComponent<P, S> {
 
       let child = children[idx];
 
-      // Если пустая
+      // if node is empty or false
       if (!child) {
         child = { instanse: null };
       }
 
-      // Если нода текстовая то выводим текст как картинку
+      // if node is a text
       if (typeof child === "string") {
         const text = child;
         child = {};
@@ -107,86 +107,86 @@ export class Component<P = any, S = any> implements IComponent<P, S> {
       }
 
       child.key = child?.props?.key ?? idx;
-      const old = this.#prevChildren.find((o) => o.key === child.key); // Смотрим есть ли нода в этой позиции с предыдущего рендера
+      const old = this.#prevChildren.find((o) => o.key === child.key); // if exists prev render step node
 
-      // Если нода существовала на прошлом рендере, но отсутствует в новом
-      // Важно - проверяем наличие ноды в container методом getChildIndex
+      // if node exist on prev step but not now
+      // use getChildIndex
       if (old?.instanse?.container && !child?.type) {
         old.instanse.isMounted = false;
         if (old?.instanse?.componentWillUnmount) {
-          const delay = old.instanse.componentWillUnmount(old.props); // Вызываем метод до удаления
+          const delay = old.instanse.componentWillUnmount(old.props); // call componentWillUnmount
           old.deleteTimer =
             !old.deleteTimer &&
             setTimeout(() => {
               const index = this.container.getChildIndex(
                 old.instanse.container
-              ); // получаем ключ старой ноды
+              ); // get prev step node index position in container
               this.container.removeChildAt(index);
               old.deleteTimer = null;
               delete old.instanse;
             }, delay || 0);
         } else {
-          const index = this.container.getChildIndex(old.instanse.container); // получаем ключ старой ноды
-          this.container.removeChildAt(index); // удаляем старую ноду
+          const index = this.container.getChildIndex(old.instanse.container); // get prev step node index position in container
+          this.container.removeChildAt(index); // remove node from parent container
           delete old.instanse;
         }
       }
 
-      // Если нет старой ноды от предыдущего рендера
+      // if prev step node not exists
       if (!old?.instanse && child?.type?.type === Component.type) {
-        child.instanse = new child.type(child.props); // Создаем ноду по ее типу
-        child.instanse.parent = this.container; // Передаем ссылку на родителя
-        child.instanse.app = this.app; // Передаем ссылку на приложение
+        child.instanse = new child.type(child.props); // create node by type
+        child.instanse.parent = this.container; // link to parent
+        child.instanse.app = this.app; // link to application
         child.instanse.componentWillMount &&
-          child.instanse.componentWillMount(child.props); // Вызываем метод до создания
-        this.container.addChild(child.instanse.container); // Добавлем ноду в контейнер
+          child.instanse.componentWillMount(child.props); // call componentWillMount
+        this.container.addChild(child.instanse.container); // append node to parent container
       }
 
-      // Если старая нода есть (и она унаследована от компонента)
+      // if prev step node and current node exists
       if (
         old?.instanse?.container &&
         child?.type?.type === Component.type &&
         old.key === child.key
       ) {
         old?.instanse?.componentWillUpdate &&
-          old.instanse.componentWillUpdate(child.props); // Вызываем метод до оновления
-        child.instanse = old.instanse.update(child.props); // Обновляем ноду с новыми пропсами
+          old.instanse.componentWillUpdate(child.props); // call componentWillUpdate
+        child.instanse = old.instanse.update(child.props); // update node
       }
 
-      temp.push(child); // записываем ноду во временный мосив
+      temp.push(child); // temp prevrender array
     }
 
-    // TODO упростить
+    // TODO need refactor cos copy of line 115, need for clean removed nodes
     for (const old of this.#prevChildren) {
       if (!temp.find((tmp) => tmp.key === old.key)) {
         old.instanse.isMounted = false;
         if (old?.instanse?.componentWillUnmount) {
-          const delay = old.instanse.componentWillUnmount(old.props); // Вызываем метод до удаления
+          const delay = old.instanse.componentWillUnmount(old.props); // call componentWillUnmount
           old.deleteTimer =
             !old.deleteTimer &&
             setTimeout(() => {
               const index = this.container.getChildIndex(
                 old.instanse.container
-              ); // получаем ключ старой ноды
+              ); // get prev step node index position in container
               this.container.removeChildAt(index);
               old.deleteTimer = null;
               delete old.instanse;
             }, delay || 0);
         } else {
-          const index = this.container.getChildIndex(old.instanse.container); // получаем ключ старой ноды
-          this.container.removeChildAt(index); // удаляем старую ноду
+          const index = this.container.getChildIndex(old.instanse.container); // get prev step node index position in container
+          this.container.removeChildAt(index); // remove node from parent container
           delete old.instanse;
         }
       }
     }
 
-    this.#prevChildren = temp; // обновляем предыдущий рендер для следующего шага
+    this.#prevChildren = temp; // update prevRender for next step
 
-    this.componentDidUpdate && this.componentDidUpdate(props, this.state); // Вызываем метод обновления
-    return this; // Возвращаем ссылку на самого себя
+    this.componentDidUpdate && this.componentDidUpdate(props, this.state); // call componentDidUpdate
+    return this; // return self
   }
 
-  // Обновляем стейт
+  // update state and rerender
   setState(newState: Partial<S>) {
     if (this.state !== newState) {
       this.state = { ...this.state, ...newState };
