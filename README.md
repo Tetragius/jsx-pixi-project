@@ -13,6 +13,9 @@ What's the difference from [React PIXI](https://reactpixi.org/)? It's not react 
 ## Motivation
 Easily create 2D games (or application) like Visual Novels or jrpg using a component approach.
 
+(at the beginning of the movement, tacnk can disappear as frames are loaded, I have not yet done a texture loader)
+[DEMO](https://tetragius.github.io/jsx-pixi-project/packages/example/dist/)
+
 ## Plans
 - add documentation
 - add tests
@@ -57,7 +60,8 @@ and
 #### Now you can create the appliction
 
 For more details look at [repository](https://github.com/Tetragius/jsx-pixi-project/tree/master/packages/example/src)
- 
+
+(at the beginning of the movement, tacnk can disappear as frames are loaded, I have not yet done a texture loader)
 [DEMO](https://tetragius.github.io/jsx-pixi-project/packages/example/dist/)
 
 #### Basics
