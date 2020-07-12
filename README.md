@@ -148,3 +148,7 @@ export class Button extends Scene {
 
 I made analogues of life cycle methods and `setState` from reaction.
 The two most significant differences are the animation method and the return value for the `componentWillUnmount` method, which indicates the delay until the component is deleted.
+
+## Component
+
+[Component](https://github.com/Tetragius/jsx-pixi-project/blob/master/packages/core/src/component/component.ts) is an analogues of `React.Component`
