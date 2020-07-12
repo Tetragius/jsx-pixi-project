@@ -1,0 +1,18 @@
+{
+  "plugins": [
+    [
+      "@babel/transform-react-jsx",
+      {
+        "runtime": "classic",
+        "importSource": "jsx-pixi",
+        "pragma": "require('jsx-pixi').createElement",
+        "pragmaFrag": "require('jsx-pixi').createFragment"
+      }
+    ],
+    "@babel/proposal-class-properties",
+    "@babel/proposal-optional-chaining",
+    "@babel/proposal-nullish-coalescing-operator",
+    "@babel/transform-parameters"
+  ],
+  "presets": ["@babel/typescript"]
+}
