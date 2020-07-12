@@ -62,7 +62,7 @@ For more details look at [repository](https://github.com/Tetragius/jsx-pixi-proj
 
 #### Basics
 
-Method render is analog ReactDOM.render, and return link on PIXI.Appllication
+Method render is an analogue of method ReactDOM.render, and return link on PIXI.Appllication
 ```jsx
 import { render } from "@tetragius/jsx-pixi";
 import { Game } from "./components/game";
