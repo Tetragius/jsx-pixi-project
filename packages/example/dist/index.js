@@ -85067,7 +85067,8 @@ class Game extends _tetragius_jsx_pixi_components__WEBPACK_IMPORTED_MODULE_0__["
       tankX: 455,
       tankY: 240,
       charges: 10,
-      bullets: []
+      bullets: [],
+      hits: 0
     });
 
     _defineProperty(this, "enemyTankRef", null);
@@ -85130,6 +85131,15 @@ class Game extends _tetragius_jsx_pixi_components__WEBPACK_IMPORTED_MODULE_0__["
     if (this.state.bullets.length) {
       this.setState({
         bullets: this.state.bullets.filter(bullet => {
+          const enemy = this.enemyTankRef.getBounds();
+
+          if (bullet.props.x > enemy.left && bullet.props.x < enemy.right && bullet.props.y > enemy.top && bullet.props.y < enemy.bottom) {
+            this.setState({
+              hits: this.state.hits + 1
+            });
+            return false;
+          }
+
           if (bullet.props.x < 910 && bullet.props.x > 0 && bullet.props.y < 480 && bullet.props.y > 0) {
             return true;
           }
@@ -85175,7 +85185,7 @@ class Game extends _tetragius_jsx_pixi_components__WEBPACK_IMPORTED_MODULE_0__["
     }, "Pause"), __webpack_require__(/*! @tetragius/jsx-pixi */ "../core/dist/index.js").createElement(_screen__WEBPACK_IMPORTED_MODULE_1__["Screen"], {
       x: 20,
       y: 20
-    }, `charges : ${this.state.charges}`), this.state.bullets));
+    }, `charges : ${this.state.charges} hit rate : ${this.state.hits}`), this.state.bullets));
   }
 
 }

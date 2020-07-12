@@ -9,6 +9,7 @@ interface State {
   tankX: number;
   tankY: number;
   charges: number;
+  hits: number;
   bullets: Bullet[];
 }
 
@@ -23,6 +24,7 @@ export class Game extends Scene<any, State> {
     tankY: 240,
     charges: 10,
     bullets: [] as any[],
+    hits: 0,
   };
 
   enemyTankRef: any = null;
@@ -75,6 +77,17 @@ export class Game extends Scene<any, State> {
     if (this.state.bullets.length) {
       this.setState({
         bullets: this.state.bullets.filter((bullet) => {
+          const enemy = this.enemyTankRef.getBounds();
+          if (
+            bullet.props.x > enemy.left &&
+            bullet.props.x < enemy.right &&
+            bullet.props.y > enemy.top &&
+            bullet.props.y < enemy.bottom
+          ) {
+            this.setState({ hits: this.state.hits + 1 });
+            return false;
+          }
+
           if (
             bullet.props.x < 910 &&
             bullet.props.x > 0 &&
@@ -117,7 +130,7 @@ export class Game extends Scene<any, State> {
               Pause
             </Button>
             <Screen x={20} y={20}>
-              {`charges : ${this.state.charges}`}
+              {`charges : ${this.state.charges} hit rate : ${this.state.hits}`}
             </Screen>
             {this.state.bullets}
           </Screen>
