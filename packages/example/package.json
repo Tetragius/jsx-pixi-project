@@ -24,6 +24,6 @@
     "webpack-cli": "^3.3.11",
     "webpack-dev-server": "^3.11.0",
     "@tetragius/jsx-pixi": "packages/core",
-    "@tetragius/jsx-pixi-components": "packages/components"
+    "@tetragius/jsx-pixi-components": "^0.0.1"
   }
 }
