@@ -150,7 +150,7 @@ export class Button extends Scene {
 }
 ```
 
-I made analogues of life cycle methods and `setState` from reaction.
+I made analogues of life cycle methods and `setState` from `react`.
 The two most significant differences are the animation method and the return value for the `componentWillUnmount` method, which indicates the delay until the component is deleted.
 
 ## Component
