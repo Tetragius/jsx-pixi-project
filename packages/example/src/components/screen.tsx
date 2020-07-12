@@ -1,4 +1,4 @@
-import { Scene } from "jsx-pixi-components";
+import { Scene } from "@tetragius/jsx-pixi-components";
 
 export class Screen extends Scene {
   k = 1;

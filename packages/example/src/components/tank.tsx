@@ -1,4 +1,4 @@
-import { Scene, Sprite, Texture } from "jsx-pixi-components";
+import { Scene, Sprite, Texture } from "@tetragius/jsx-pixi-components";
 
 interface Props {
   onMove?: any;

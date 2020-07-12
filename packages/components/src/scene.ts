@@ -1,4 +1,4 @@
-import { Component, PropsWithChildren } from "jsx-pixi";
+import { Component, PropsWithChildren } from "@tetragius/jsx-pixi";
 import { Filter } from ".";
 
 type Pivot = {

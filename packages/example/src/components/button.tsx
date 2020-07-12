@@ -1,4 +1,4 @@
-import { Scene, Sprite, Filter } from "jsx-pixi-components";
+import { Scene, Sprite, Filter } from "@tetragius/jsx-pixi-components";
 
 export class Button extends Scene {
   state = { over: false };

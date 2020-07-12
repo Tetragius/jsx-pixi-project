@@ -1,5 +1,5 @@
 {
-  "name": "jsx-pixi-components",
+  "name": "@tetragius/jsx-pixi-components",
   "version": "1.0.0",
   "description": "",
   "main": "dist/index.js",
@@ -20,7 +20,7 @@
     "@babel/plugin-transform-react-jsx": "^7.10.1",
     "@babel/preset-typescript": "^7.10.1",
     "babel-loader": "^8.1.0",
-    "jsx-pixi": "packages/core",
+    "@tetragius/jsx-pixi": "packages/core",
     "ts-loader": "^7.0.5",
     "typescript": "^3.9.6",
     "webpack": "^4.43.0",

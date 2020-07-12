@@ -1,4 +1,4 @@
-import { Scene, Sprite } from "jsx-pixi-components";
+import { Scene, Sprite } from "@tetragius/jsx-pixi-components";
 import { Screen } from "./screen";
 import { Tank } from "./tank";
 import { Button } from "./button";

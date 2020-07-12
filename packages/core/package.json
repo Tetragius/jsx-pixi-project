@@ -1,5 +1,5 @@
 {
-  "name": "jsx-pixi",
+  "name": "@tetragius/jsx-pixi",
   "version": "1.0.0",
   "description": "",
   "main": "dist/index.js",

@@ -1,4 +1,4 @@
-import { Scene, Sprite } from "jsx-pixi-components";
+import { Scene, Sprite } from "@tetragius/jsx-pixi-components";
 
 export class Bullet extends Scene {
   constructor(props: any) {

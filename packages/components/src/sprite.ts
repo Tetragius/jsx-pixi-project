@@ -1,5 +1,5 @@
 import { Sprite as PIXISprite, Texture as PIXITexture } from "pixi.js";
-import { Component, PropsWithChildren, PropsWithEvents } from "jsx-pixi";
+import { Component, PropsWithChildren, PropsWithEvents } from "@tetragius/jsx-pixi";
 import { Texture, Filter } from ".";
 
 interface SpriteProps extends PropsWithEvents {

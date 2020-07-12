@@ -4,9 +4,9 @@
       "@babel/transform-react-jsx",
       {
         "runtime": "classic",
-        "importSource": "jsx-pixi",
-        "pragma": "require('jsx-pixi').createElement",
-        "pragmaFrag": "require('jsx-pixi').createFragment"
+        "importSource": "@tetragius/jsx-pixi",
+        "pragma": "require('@tetragius/jsx-pixi').createElement",
+        "pragmaFrag": "require('@tetragius/jsx-pixi').createFragment"
       }
     ],
     "@babel/proposal-class-properties",
