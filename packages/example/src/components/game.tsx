@@ -1,11 +1,13 @@
-import { Scene, Sprite } from "@tetragius/jsx-pixi-components";
+import { Scene, Sprite, Router, Route } from "@tetragius/jsx-pixi-components";
+import { createHashHistory } from "history";
 import { Screen } from "./screen";
 import { Tank } from "./tank";
 import { Button } from "./button";
 import { Bullet } from "./bullet";
 
+const history = createHashHistory();
+
 interface State {
-  isPause: boolean;
   tankX: number;
   tankY: number;
   charges: number;
@@ -19,7 +21,6 @@ export class Game extends Scene<any, State> {
   }
 
   state = {
-    isPause: true,
     tankX: 455,
     tankY: 240,
     charges: 10,
@@ -28,9 +29,6 @@ export class Game extends Scene<any, State> {
   };
 
   enemyTankRef: any = null;
-
-  start = () => this.setState({ isPause: false });
-  pause = () => this.setState({ isPause: true });
 
   moveTank = (data: any) => {
     this.setState({
@@ -104,16 +102,16 @@ export class Game extends Scene<any, State> {
 
   render() {
     return (
-      <Scene width={910} height={480}>
-        {this.state.isPause && (
-          <Screen width={910} height={480}>
-            <Button x={455} y={240} onClick={this.start}>
+      <Router history={history}>
+        <Route path="/a">
+          <Screen>
+            <Button x={455} y={240} onClick={() => history.replace("/b")}>
               Start
             </Button>
           </Screen>
-        )}
-        {!this.state.isPause && (
-          <Screen width={910} height={480}>
+        </Route>
+        <Route path="/b">
+          <Screen>
             <Sprite x={0} y={0} anchor={0} texture="map.jpg" />
             <Tank
               x={this.state.tankX}
@@ -126,7 +124,7 @@ export class Game extends Scene<any, State> {
               x={500}
               y={240}
             />
-            <Button x={800} y={45} onClick={this.pause}>
+            <Button x={800} y={45} onClick={() => history.replace("/a")}>
               Pause
             </Button>
             <Screen x={20} y={20}>
@@ -134,8 +132,8 @@ export class Game extends Scene<any, State> {
             </Screen>
             {this.state.bullets}
           </Screen>
-        )}
-      </Scene>
+        </Route>
+      </Router>
     );
   }
 }

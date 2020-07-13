@@ -1,6 +1,7 @@
 # jsx-pixi-project
 
 ## What is this?
+
 I am developing this for myself but it may be interesting for others...
 
 I like to develop games. For my home project, I use [RPG Maker](https://www.rpgmakerweb.com/), based on the popular library [PIXI.JS](https://www.pixijs.com/). But writing plugins for RPG is pure pain.
@@ -11,15 +12,28 @@ So... After reading the excellent article ["Build your own React" by Rodrigo Pom
 What's the difference from [React PIXI](https://reactpixi.org/)? It's not react just JSX + PIXI.
 
 ## Motivation
+
 Easily create 2D games (or application) like Visual Novels or jrpg using a component approach.
 
 (at the beginning of the movement, tacnk can disappear as frames are loaded, I have not yet done a texture loader)
 [DEMO](https://tetragius.github.io/jsx-pixi-project/packages/example/dist/)
 
 ## Plans
+
 - add documentation
 - add tests
 - refactoring
+
+## New at version 0.0.3
+
+#### jsx-pixi-components
+
+- add [Router](#router) component
+- add Route component
+
+#### jsx-pixi
+
+- add `forceUpdate` method
 
 ## How it work?
 
@@ -33,7 +47,7 @@ The project consists of 3 parts:
 
 #### Install
 
-> npm install --save-dev @tetragius/jsx-pixi 
+> npm install --save-dev @tetragius/jsx-pixi
 
 and
 
@@ -67,6 +81,7 @@ For more details look at [repository](https://github.com/Tetragius/jsx-pixi-proj
 #### Basics
 
 Method render is an analogue of method ReactDOM.render, and return link on PIXI.Appllication
+
 ```jsx
 import { render } from "@tetragius/jsx-pixi";
 import { Game } from "./components/game";
@@ -156,3 +171,26 @@ The two most significant differences are the animation method and the return val
 ## Component
 
 [Component](https://github.com/Tetragius/jsx-pixi-project/blob/master/packages/core/src/component/component.ts) is an analogues of `React.Component`
+
+## Router
+
+Works with [history](https://github.com/ReactTraining/history#readme) library.
+Support only `hashHistory`
+
+```jsx
+import { Router, Route } from "@tetragius/jsx-pixi-components";
+import { createHashHistory } from "history";
+
+const history = createHashHistory();
+
+///
+
+<Router history={history}>
+  <Route path="/a"></Route>
+  <Route path="/b"></Route>
+</Router>;
+
+///
+
+history.replace("/b");
+```

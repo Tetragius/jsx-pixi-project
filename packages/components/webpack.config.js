@@ -10,7 +10,8 @@ module.exports = {
     filename: "index.js",
   },
   externals: {
-    core: "jsx-pixi",
+    "pixi.js": "pixi.js",
+    "@tetragius/jsx-pixi": "@tetragius/jsx-pixi",
   },
   resolve: {
     extensions: [".ts", ".tsx", ".js"],

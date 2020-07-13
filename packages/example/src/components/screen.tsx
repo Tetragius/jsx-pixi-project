@@ -27,6 +27,6 @@ export class Screen extends Scene {
   }
 
   render(): void {
-    return <>{this.props.children}</>;
+    return this.props.children;
   }
 }

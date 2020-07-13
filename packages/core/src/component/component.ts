@@ -1,5 +1,6 @@
 import { Container, Text, Ticker, Application } from "pixi.js";
 import { eventsFromProps, removeEvents, PropsWithEvents } from "../helpers";
+import { createFragment } from "../utils";
 
 export type PropsWithChildren<P = any> = P & {
   children?: any;
@@ -76,12 +77,9 @@ export class Component<P = any, S = any> implements IComponent<P, S> {
     this.props = props; // update props
     const rendered = this.render(); // render node
 
-    let children = // get children node
-      rendered?.type?.type === Component.type
-        ? [rendered]
-        : rendered?.children || rendered?.props?.children || props?.children;
-
-    children = children.flat(2);
+    let children =
+      rendered?.type === createFragment ? [rendered.children] : [rendered]; // get children node
+    children = (children as any).flat(3);
 
     const temp: any[] = []; // temporary rendered nods
 
@@ -192,6 +190,11 @@ export class Component<P = any, S = any> implements IComponent<P, S> {
       this.state = { ...this.state, ...newState };
       this.update();
     }
+  }
+
+  // update and rerender
+  forceUpdate() {
+    this.update();
   }
 
   componentWillMount?(props: P): void;

@@ -62,7 +62,7 @@ export class Sprite extends Component<SpriteProps> {
     this.sprite.angle = props.angle ?? 0;
   }
 
-  render(): any {
-    return null;
+  render() {
+    return this.props.children;
   }
 }
