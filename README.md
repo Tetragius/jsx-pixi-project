@@ -15,7 +15,10 @@ What's the difference from [React PIXI](https://reactpixi.org/)? It's not react 
 
 Easily create 2D games (or application) like Visual Novels or jrpg using a component approach.
 
+[Watch the video](https://youtu.be/87vSiy1S91Q)
+
 (at the beginning of the movement, tacnk can disappear as frames are loaded, I have not yet done a texture loader)
+
 [DEMO](https://tetragius.github.io/jsx-pixi-project/packages/example/dist/)
 
 ## Plans
@@ -76,6 +79,7 @@ and
 For more details look at [repository](https://github.com/Tetragius/jsx-pixi-project/tree/master/packages/example/src)
 
 (at the beginning of the movement, tacnk can disappear as frames are loaded, I have not yet done a texture loader)
+
 [DEMO](https://tetragius.github.io/jsx-pixi-project/packages/example/dist/)
 
 #### Basics
@@ -167,6 +171,12 @@ export class Button extends Scene {
 
 I made analogues of life cycle methods and `setState` from `react`.
 The two most significant differences are the animation method and the return value for the `componentWillUnmount` method, which indicates the delay until the component is deleted.
+
+Also supports `ref` like
+```jsx
+<Component ref={...} />
+```
+where ref is a `PIXI.Container`
 
 ## Component
 
