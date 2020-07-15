@@ -30,22 +30,22 @@ export class Tank extends Scene<Props, FlipState> {
         case "ArrowLeft":
           this.setState({ move: true });
           this.container.angle = 180;
-          this.props.onMove({ x: -1, y: 0 });
+          this.props.onMove({ x: -2, y: 0 });
           return;
         case "ArrowRight":
           this.setState({ move: true });
           this.container.angle = 0;
-          this.props.onMove({ x: 1, y: 0 });
+          this.props.onMove({ x: 2, y: 0 });
           return;
         case "ArrowDown":
           this.setState({ move: true });
           this.container.angle = 90;
-          this.props.onMove({ x: 0, y: 1 });
+          this.props.onMove({ x: 0, y: 2 });
           return;
         case "ArrowUp":
           this.setState({ move: true });
           this.container.angle = 270;
-          this.props.onMove({ x: 0, y: -1 });
+          this.props.onMove({ x: 0, y: -2 });
           return;
         case " ":
           this.props.onShut({ angle: this.container.angle });

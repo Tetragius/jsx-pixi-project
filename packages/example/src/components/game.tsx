@@ -59,16 +59,16 @@ export class Game extends Scene<any, State> {
     this.state.bullets.forEach((bullet) => {
       switch (bullet.props.angle) {
         case 0:
-          bullet.props.x += 1 * tick;
+          bullet.props.x += 3 * tick;
           break;
         case 90:
-          bullet.props.y += 1 * tick;
+          bullet.props.y += 3 * tick;
           break;
         case 180:
-          bullet.props.x -= 1 * tick;
+          bullet.props.x -= 3 * tick;
           break;
         case 270:
-          bullet.props.y -= 1 * tick;
+          bullet.props.y -= 3 * tick;
           break;
       }
     });

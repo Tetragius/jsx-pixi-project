@@ -1,6 +1,10 @@
 import { Sprite as PIXISprite, Texture as PIXITexture } from "pixi.js";
-import { Component, PropsWithChildren, PropsWithEvents } from "@tetragius/jsx-pixi";
-import { Texture, Filter } from ".";
+import {
+  Component,
+  PropsWithChildren,
+  PropsWithEvents,
+} from "@tetragius/jsx-pixi";
+import { Texture, Filter, SFX } from ".";
 
 interface SpriteProps extends PropsWithEvents {
   x?: number;
@@ -22,6 +26,13 @@ const textureFromChildren = (children?: any) => {
   return new texture.type(texture.props);
 };
 
+const soundFromChildren = (children?: any) => {
+  if (children) {
+    const sfx = children.find((c: any) => c.type === SFX);
+    sfx && new sfx.type(sfx.props);
+  }
+};
+
 const filterFromChildren = (children?: any) => {
   if (!children) {
     return null;
@@ -35,6 +46,7 @@ export class Sprite extends Component<SpriteProps> {
   texture: PIXITexture;
   constructor(props: SpriteProps) {
     super(props);
+    soundFromChildren(this.props.children);
     this.texture = this.props.texture
       ? PIXITexture.from(this.props.texture)
       : textureFromChildren(this.props.children)?.texture;

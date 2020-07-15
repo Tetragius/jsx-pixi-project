@@ -4,3 +4,4 @@ export * from "./texture";
 export * from "./filter";
 export * from "./router";
 export * from "./route";
+export * from "./audio";

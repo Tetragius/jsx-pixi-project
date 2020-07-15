@@ -49,94 +49,117 @@ export const eventsFromProps = (container: Container, props: Events) => {
   // moouse
   if (props.onClick) {
     container.interactive = true;
+    container.buttonMode = true;
     container.on("click", props.onClick);
   }
   if (props.onMouseDown) {
     container.interactive = true;
+    container.buttonMode = true;
     container.on("mousedown", props.onMouseDown);
   }
   if (props.onMouseMove) {
     container.interactive = true;
+    container.buttonMode = true;
     container.on("mousemove", props.onMouseMove);
   }
   if (props.onMouseOut) {
+    container.buttonMode = true;
     container.interactive = true;
     container.on("mouseout", props.onMouseOut);
   }
   if (props.onMouseOver) {
     container.interactive = true;
+    container.buttonMode = true;
     container.on("mouseover", props.onMouseOver);
   }
   if (props.onMouseUpUoutside) {
     container.interactive = true;
+    container.buttonMode = true;
     container.on("mouseupoutside", props.onMouseUpUoutside);
   }
   if (props.onPointerCancel) {
     container.interactive = true;
+    container.buttonMode = true;
     container.on("pointercancel", props.onPointerCancel);
   }
   if (props.onPointerDown) {
     container.interactive = true;
+    container.buttonMode = true;
     container.on("pointerdown", props.onPointerDown);
   }
   if (props.onPointerOut) {
     container.interactive = true;
+    container.buttonMode = true;
     container.on("pointerout", props.onPointerOut);
   }
   if (props.onPointerOver) {
     container.interactive = true;
+    container.buttonMode = true;
     container.on("pointerover", props.onPointerOver);
   }
   if (props.onPointerTap) {
     container.interactive = true;
+    container.buttonMode = true;
     container.on("pointertap", props.onPointerTap);
   }
   if (props.onPointerUp) {
     container.interactive = true;
+    container.buttonMode = true;
     container.on("pointerup", props.onPointerUp);
   }
   if (props.onPointerUpOutside) {
     container.interactive = true;
+    container.buttonMode = true;
     container.on("pointerupoutside", props.onPointerUpOutside);
   }
   if (props.onRightClick) {
     container.interactive = true;
+    container.buttonMode = true;
     container.on("rightclick", props.onRightClick);
   }
   if (props.onRightDown) {
     container.interactive = true;
+    container.buttonMode = true;
     container.on("rightdown", props.onRightDown);
   }
   if (props.onRightUp) {
+    container.buttonMode = true;
     container.interactive = true;
     container.on("rightup", props.onRightUp);
   }
   if (props.onRightUpOutside) {
     container.interactive = true;
+    container.buttonMode = true;
     container.on("rightupoutside", props.onRightUpOutside);
   }
   if (props.onTap) {
     container.interactive = true;
+    container.buttonMode = true;
     container.on("tap", props.onTap);
   }
   if (props.onTouchCancel) {
     container.interactive = true;
+    container.buttonMode = true;
     container.on("touchcancel", props.onTouchCancel);
   }
   if (props.onTouchEnd) {
     container.interactive = true;
+    container.buttonMode = true;
     container.on("touchend", props.onTouchEnd);
   }
   if (props.onTouchEndOutside) {
     container.interactive = true;
+    container.buttonMode = true;
     container.on("touchendoutside", props.onTouchEndOutside);
   }
   if (props.onTouchMove) {
     container.interactive = true;
+    container.buttonMode = true;
     container.on("touchmove", props.onTouchMove);
   }
   if (props.onTouchStart) {
     container.interactive = true;
+    container.buttonMode = true;
     container.on("touchstart", props.onTouchStart);
   }
 };

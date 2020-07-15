@@ -1,9 +1,10 @@
-import { Container, Text, Ticker, Application } from "pixi.js";
+import { Container, Text, Ticker, Application, TextStyle } from "pixi.js";
 import { eventsFromProps, removeEvents, PropsWithEvents } from "../helpers";
 import { createFragment } from "../utils";
 
 export type PropsWithChildren<P = any> = P & {
   children?: any;
+  textStyle?: TextStyle;
   ref?: (ref?: Container) => void | { current: Container };
 };
 
@@ -11,8 +12,32 @@ export interface IComponent<P = any, S = any> {
   props: PropsWithEvents<PropsWithChildren<P>>;
   state: S;
   container: Container;
+  parent?: Container;
+  app: Application;
+  ticker?: Ticker;
+  isMounted: boolean;
   setState(state: Partial<S>): void;
 }
+
+// remove node
+const removeNode = (node: any, container: Container) => {
+  node.instanse.isMounted = false;
+  if (node?.instanse?.componentWillUnmount) {
+    const delay = node.instanse.componentWillUnmount(node.props); // call componentWillUnmount
+    node.deleteTimer =
+      !node.deleteTimer &&
+      setTimeout(() => {
+        const index = container.getChildIndex(node.instanse.container); // get prev step node index position in container
+        container.removeChildAt(index);
+        node.deleteTimer = null;
+        delete node.instanse;
+      }, delay || 0);
+  } else {
+    const index = container.getChildIndex(node.instanse.container); // get prev step node index position in container
+    container.removeChildAt(index); // remove node from parent container
+    delete node.instanse;
+  }
+};
 
 export class Component<P = any, S = any> implements IComponent<P, S> {
   static type = Symbol("component");
@@ -23,7 +48,7 @@ export class Component<P = any, S = any> implements IComponent<P, S> {
   app: Application;
 
   container: Container = new Container();
-  ticker: Ticker;
+  ticker?: Ticker;
 
   #prevChildren: any[] = [];
 
@@ -100,7 +125,12 @@ export class Component<P = any, S = any> implements IComponent<P, S> {
       if (typeof child === "string") {
         const text = child;
         child = {};
-        child.instanse = { container: new Text(text) };
+        child.instanse = {
+          container: new Text(
+            text,
+            this.props?.textStyle && new TextStyle(this.props.textStyle)
+          ),
+        };
         this.container.addChild(child.instanse.container);
       }
 
@@ -109,25 +139,8 @@ export class Component<P = any, S = any> implements IComponent<P, S> {
 
       // if node exist on prev step but not now
       // use getChildIndex
-      if (old?.instanse?.container && !child?.type) {
-        old.instanse.isMounted = false;
-        if (old?.instanse?.componentWillUnmount) {
-          const delay = old.instanse.componentWillUnmount(old.props); // call componentWillUnmount
-          old.deleteTimer =
-            !old.deleteTimer &&
-            setTimeout(() => {
-              const index = this.container.getChildIndex(
-                old.instanse.container
-              ); // get prev step node index position in container
-              this.container.removeChildAt(index);
-              old.deleteTimer = null;
-              delete old.instanse;
-            }, delay || 0);
-        } else {
-          const index = this.container.getChildIndex(old.instanse.container); // get prev step node index position in container
-          this.container.removeChildAt(index); // remove node from parent container
-          delete old.instanse;
-        }
+      if (old?.instanse && !child?.type) {
+        removeNode(old, this.container);
       }
 
       // if prev step node not exists
@@ -137,8 +150,8 @@ export class Component<P = any, S = any> implements IComponent<P, S> {
         child.instanse.app = this.app; // link to application
         child.instanse.componentWillMount &&
           child.instanse.componentWillMount(child.props); // call componentWillMount
-        this.container.addChild(child.instanse.container); // append node to parent container
-      }
+          this.container.addChild(child.instanse.container); // append node to parent container
+        }
 
       // if prev step node and current node exists
       if (
@@ -154,27 +167,9 @@ export class Component<P = any, S = any> implements IComponent<P, S> {
       temp.push(child); // temp prevrender array
     }
 
-    // TODO need refactor cos copy of line 115, need for clean removed nodes
     for (const old of this.#prevChildren) {
       if (!temp.find((tmp) => tmp.key === old.key)) {
-        old.instanse.isMounted = false;
-        if (old?.instanse?.componentWillUnmount) {
-          const delay = old.instanse.componentWillUnmount(old.props); // call componentWillUnmount
-          old.deleteTimer =
-            !old.deleteTimer &&
-            setTimeout(() => {
-              const index = this.container.getChildIndex(
-                old.instanse.container
-              ); // get prev step node index position in container
-              this.container.removeChildAt(index);
-              old.deleteTimer = null;
-              delete old.instanse;
-            }, delay || 0);
-        } else {
-          const index = this.container.getChildIndex(old.instanse.container); // get prev step node index position in container
-          this.container.removeChildAt(index); // remove node from parent container
-          delete old.instanse;
-        }
+        removeNode(old, this.container);
       }
     }
 

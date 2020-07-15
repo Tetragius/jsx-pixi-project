@@ -27,6 +27,12 @@ Easily create 2D games (or application) like Visual Novels or jrpg using a compo
 - add tests
 - refactoring
 
+## New at version 0.0.4
+
+#### jsx-pixi-components
+
+- add audio component (experemental)
+
 ## New at version 0.0.3
 
 #### jsx-pixi-components
