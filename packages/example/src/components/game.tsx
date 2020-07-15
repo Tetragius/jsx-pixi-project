@@ -127,7 +127,17 @@ export class Game extends Scene<any, State> {
             <Button x={800} y={45} onClick={() => history.replace("/a")}>
               Pause
             </Button>
-            <Screen x={20} y={20}>
+            <Screen
+              x={20}
+              y={20}
+              textStyle={{
+                fill: ["#ffffff", "#00ff99"],
+                stroke: "#4a1850",
+                strokeThickness: 5,
+                dropShadow: true,
+                dropShadowColor: "#000000",
+              }}
+            >
               {`charges : ${this.state.charges} hit rate : ${this.state.hits}`}
             </Screen>
             {this.state.bullets}

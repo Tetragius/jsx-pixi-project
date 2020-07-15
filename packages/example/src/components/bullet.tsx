@@ -9,7 +9,7 @@ export class Bullet extends Scene {
   render(): void {
     return (
       <Sprite texture="bullet.png" angle={this.props.angle}>
-        <SFX ref={(ref) => (this.sfx = ref)} src="shoot.mp3" />
+        <SFX src="shoot.mp3" />
       </Sprite>
     );
   }

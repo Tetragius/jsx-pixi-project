@@ -33,6 +33,10 @@ Easily create 2D games (or application) like Visual Novels or jrpg using a compo
 
 - add audio component (experemental)
 
+#### jsx-pixi
+
+- add support [text style](#textstyle) (PIXI.TextStyle)
+
 ## New at version 0.0.3
 
 #### jsx-pixi-components
@@ -179,9 +183,11 @@ I made analogues of life cycle methods and `setState` from `react`.
 The two most significant differences are the animation method and the return value for the `componentWillUnmount` method, which indicates the delay until the component is deleted.
 
 Also supports `ref` like
+
 ```jsx
 <Component ref={...} />
 ```
+
 where ref is a `PIXI.Container`
 
 ## Component
@@ -209,4 +215,22 @@ const history = createHashHistory();
 ///
 
 history.replace("/b");
+```
+
+## TextStyle
+
+Example
+
+```jsx
+<Scene
+  text={{
+    fill: ["#ffffff", "#00ff99"],
+    stroke: "#4a1850",
+    strokeThickness: 5,
+    dropShadow: true,
+    dropShadowColor: "#000000",
+  }}
+>
+  Text
+</Scene>
 ```
