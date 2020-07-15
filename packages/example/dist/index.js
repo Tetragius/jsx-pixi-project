@@ -88384,7 +88384,6 @@ class Bullet extends _tetragius_jsx_pixi_components__WEBPACK_IMPORTED_MODULE_0__
       texture: "bullet.png",
       angle: this.props.angle
     }, __webpack_require__(/*! @tetragius/jsx-pixi */ "../core/dist/index.js").createElement(_tetragius_jsx_pixi_components__WEBPACK_IMPORTED_MODULE_0__["SFX"], {
-      ref: ref => this.sfx = ref,
       src: "shoot.mp3"
     }));
   }
@@ -88585,7 +88584,14 @@ class Game extends _tetragius_jsx_pixi_components__WEBPACK_IMPORTED_MODULE_0__["
       onClick: () => history.replace("/a")
     }, "Pause"), __webpack_require__(/*! @tetragius/jsx-pixi */ "../core/dist/index.js").createElement(_screen__WEBPACK_IMPORTED_MODULE_2__["Screen"], {
       x: 20,
-      y: 20
+      y: 20,
+      textStyle: {
+        fill: ["#ffffff", "#00ff99"],
+        stroke: "#4a1850",
+        strokeThickness: 5,
+        dropShadow: true,
+        dropShadowColor: "#000000"
+      }
     }, `charges : ${this.state.charges} hit rate : ${this.state.hits}`), this.state.bullets)));
   }
 
