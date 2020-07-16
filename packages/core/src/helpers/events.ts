@@ -6,6 +6,7 @@ export interface Events {
   onKeyUp?(e: KeyboardEvent): void;
 
   onClick?(e: InteractionEvent): void;
+  onMouseUp?(e: InteractionEvent): void;
   onMouseDown?(e: InteractionEvent): void;
   onMouseMove?(e: InteractionEvent): void;
   onMouseOut?(e: InteractionEvent): void;
@@ -56,6 +57,11 @@ export const eventsFromProps = (container: Container, props: Events) => {
     container.interactive = true;
     container.buttonMode = true;
     container.on("mousedown", props.onMouseDown);
+  }
+  if (props.onMouseUp) {
+    container.interactive = true;
+    container.buttonMode = true;
+    container.on("mouseup", props.onMouseUp);
   }
   if (props.onMouseMove) {
     container.interactive = true;

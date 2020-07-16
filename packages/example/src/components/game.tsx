@@ -1,9 +1,16 @@
-import { Scene, Sprite, Router, Route } from "@tetragius/jsx-pixi-components";
+import {
+  Scene,
+  Sprite,
+  Router,
+  Route,
+  SFX,
+} from "@tetragius/jsx-pixi-components";
 import { createHashHistory } from "history";
 import { Screen } from "./screen";
 import { Tank } from "./tank";
 import { Button } from "./button";
 import { Bullet } from "./bullet";
+import { Slider } from "./slider";
 
 const history = createHashHistory();
 
@@ -13,6 +20,8 @@ interface State {
   charges: number;
   hits: number;
   bullets: Bullet[];
+  track: string;
+  volume: number;
 }
 
 export class Game extends Scene<any, State> {
@@ -26,6 +35,8 @@ export class Game extends Scene<any, State> {
     charges: 10,
     bullets: [] as any[],
     hits: 0,
+    track: "bkg.mp3",
+    volume: 50,
   };
 
   enemyTankRef: any = null;
@@ -100,6 +111,8 @@ export class Game extends Scene<any, State> {
     }
   }
 
+  changeVolume = (data: any) => this.setState({ volume: data });
+
   render() {
     return (
       <Router history={history}>
@@ -140,7 +153,33 @@ export class Game extends Scene<any, State> {
             >
               {`charges : ${this.state.charges} hit rate : ${this.state.hits}`}
             </Screen>
+            <Slider
+              x={20}
+              y={80}
+              value={this.state.volume}
+              onChange={this.changeVolume}
+            />
+            <Button
+              x={800}
+              y={85}
+              onClick={() => this.setState({ track: "bkg.mp3" })}
+            >
+              Track 1
+            </Button>
+            <Button
+              x={800}
+              y={125}
+              onClick={() => this.setState({ track: "bkg2.mp3" })}
+            >
+              Track 2
+            </Button>
             {this.state.bullets}
+            <SFX
+              key="sfx"
+              src={this.state.track}
+              volume={this.state.volume / 100}
+              repeat
+            />
           </Screen>
         </Route>
       </Router>
