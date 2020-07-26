@@ -16,7 +16,7 @@ export class Router extends Scene {
     this.unlisten = this.props.history.listen(this.listener);
   }
 
-  componentDidUnmount() {
+  componentWillUnmount() {
     this.unlisten();
   }
 

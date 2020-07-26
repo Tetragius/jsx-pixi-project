@@ -4,6 +4,7 @@ import {
   Router,
   Route,
   SFX,
+  Filter,
 } from "@tetragius/jsx-pixi-components";
 import { createHashHistory } from "history";
 import { Screen } from "./screen";
@@ -22,6 +23,7 @@ interface State {
   bullets: Bullet[];
   track: string;
   volume: number;
+  blur: number;
 }
 
 export class Game extends Scene<any, State> {
@@ -37,6 +39,7 @@ export class Game extends Scene<any, State> {
     hits: 0,
     track: "bkg.mp3",
     volume: 50,
+    blur: 0,
   };
 
   enemyTankRef: any = null;
@@ -86,7 +89,10 @@ export class Game extends Scene<any, State> {
     if (this.state.bullets.length) {
       this.setState({
         bullets: this.state.bullets.filter((bullet) => {
-          const enemy = this.enemyTankRef.getBounds();
+          const enemy = this.enemyTankRef.container?.getBounds() || false;
+          if (!enemy) {
+            return false;
+          }
           if (
             bullet.props.x > enemy.left &&
             bullet.props.x < enemy.right &&
@@ -112,6 +118,7 @@ export class Game extends Scene<any, State> {
   }
 
   changeVolume = (data: any) => this.setState({ volume: data });
+  changeBlur = (data: any) => this.setState({ blur: data / 50 });
 
   render() {
     return (
@@ -159,6 +166,12 @@ export class Game extends Scene<any, State> {
               value={this.state.volume}
               onChange={this.changeVolume}
             />
+            <Slider
+              x={20}
+              y={120}
+              value={this.state.blur}
+              onChange={this.changeBlur}
+            />
             <Button
               x={800}
               y={85}
@@ -180,6 +193,7 @@ export class Game extends Scene<any, State> {
               volume={this.state.volume / 100}
               repeat
             />
+            <Filter builtIn="BlurFilter" builtInArgs={[this.state.blur]} />
           </Screen>
         </Route>
       </Router>
