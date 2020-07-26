@@ -11,7 +11,7 @@ export class Button extends Scene {
   mouseOverHander = () => this.setState({ over: true });
   mouseOutHandler = () => this.setState({ over: false });
 
-  render(): void {
+  render() {
     return (
       <Sprite
         texture="button.png"

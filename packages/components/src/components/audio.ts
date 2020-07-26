@@ -1,7 +1,6 @@
 import { ComponentBase } from "@tetragius/jsx-pixi";
 
 interface AudioProps {
-  key: string;
   src: string;
   autoplay?: boolean;
   repeat?: boolean;

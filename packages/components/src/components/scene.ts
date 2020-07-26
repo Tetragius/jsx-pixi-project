@@ -1,4 +1,4 @@
-import { Component, PropsWithChildren } from "@tetragius/jsx-pixi";
+import { Component } from "@tetragius/jsx-pixi";
 import { Filter } from "pixi.js";
 
 type Pivot = {
@@ -30,7 +30,7 @@ export class Scene<P = any, S = any> extends Component<P & SceneProps, S> {
     this.container.pivot.y = this.props.pivot?.y ?? this.container.height / 2;
   }
 
-  componentWillUpdate(props: PropsWithChildren<SceneProps>) {
+  componentWillUpdate(props: SceneProps) {
     this.container.filters = [
       ...this.container.filters,
       ...(props.filters || []),

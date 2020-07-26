@@ -5,6 +5,7 @@ import {
   Route,
   SFX,
   Filter,
+  Mask,
 } from "@tetragius/jsx-pixi-components";
 import { createHashHistory } from "history";
 import { Screen } from "./screen";
@@ -193,6 +194,7 @@ export class Game extends Scene<any, State> {
               volume={this.state.volume / 100}
               repeat
             />
+            <Mask key="msk" texture={"msk.png"} />
             <Filter builtIn="BlurFilter" builtInArgs={[this.state.blur]} />
           </Screen>
         </Route>

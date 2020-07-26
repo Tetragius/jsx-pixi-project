@@ -1,9 +1,5 @@
 import { Sprite as PIXISprite, Texture as PIXITexture, Filter } from "pixi.js";
-import {
-  Component,
-  PropsWithChildren,
-  PropsWithEvents,
-} from "@tetragius/jsx-pixi";
+import { Component, PropsWithEvents } from "@tetragius/jsx-pixi";
 
 interface SpriteProps extends PropsWithEvents {
   x?: number;
@@ -33,7 +29,7 @@ export class Sprite extends Component<SpriteProps> {
     this.container.filters = this.props.filters || [];
   }
 
-  componentWillUpdate(props: PropsWithChildren<SpriteProps>) {
+  componentWillUpdate(props: SpriteProps) {
     this.container.filters = [
       ...this.container.filters,
       ...(props.filters || []),

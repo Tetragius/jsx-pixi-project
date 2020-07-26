@@ -45,7 +45,7 @@ export class Slider extends Scene<Props> {
     }
   };
 
-  render(): void {
+  render() {
     return (
       <Scene ref={this.ref}>
         <Sprite texture="line.png" anchor={0} />

@@ -1,7 +1,7 @@
 import { Filter as PIXIFilter, filters } from "pixi.js";
 import { ComponentBase } from "@tetragius/jsx-pixi";
 
-interface TextureProps {
+interface FilterProps {
   builtIn?: "BlurFilter" | "NoiseFilter";
   builtInArgs?: any[];
   vShader?: string;
@@ -9,10 +9,9 @@ interface TextureProps {
   uniform?: any;
 }
 
-export class Filter extends ComponentBase {
-  props: TextureProps;
+export class Filter extends ComponentBase<FilterProps> {
   filter: PIXIFilter;
-  constructor(props: TextureProps) {
+  constructor(props: FilterProps) {
     super(props);
     const {
       builtIn,
@@ -32,7 +31,7 @@ export class Filter extends ComponentBase {
     (this.parent as any).container.filters.push(this.filter);
   }
 
-  componentWillUpdate(props: TextureProps) {
+  componentWillUpdate(props: FilterProps) {
     const {
       builtIn,
       builtInArgs = [],
@@ -51,6 +50,7 @@ export class Filter extends ComponentBase {
   }
 
   componentWillUnmount() {
+    // TODO
     const index = (this.parent as any).container.filters.indexOf(this.filter);
     (this.parent as any).container.filters.splice(index, 1);
   }

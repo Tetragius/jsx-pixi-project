@@ -1,14 +1,15 @@
-import { Application, TextStyle, Text } from "pixi.js";
+import { Application } from "pixi.js";
 import { PropsWithEvents } from "../helpers";
-import { createFragment } from "../utils";
+import { createFragment, INode, Element } from "../utils";
 
-export type PropsWithChildren<P = any> = P & {
-  children?: any;
+export type IComponentBaseProps<P = any> = P & {
+  key?: string;
+  children?: Element[];
   ref?: (ref?: ComponentBase) => void | { current: ComponentBase };
 };
 
 export interface IComponentBase<P = any, S = any> {
-  props: PropsWithEvents<PropsWithChildren<P>>;
+  props: PropsWithEvents<IComponentBaseProps<P>>;
   state: S;
   parent?: ComponentBase;
   app: Application;
@@ -24,12 +25,12 @@ export class ComponentBase<P = any, S = any> implements IComponentBase<P, S> {
   parent?: ComponentBase;
   app: Application;
 
-  #prevChildren: any[] = [];
+  #prevChildren: INode[] = [];
 
-  props: PropsWithEvents<PropsWithChildren<P>>;
+  props: PropsWithEvents<IComponentBaseProps<P>>;
   state: S;
 
-  constructor(props: PropsWithEvents<PropsWithChildren<P>>) {
+  constructor(props: PropsWithEvents<IComponentBaseProps<P>>) {
     this.props = props;
 
     if (this.props.ref) {
@@ -43,15 +44,15 @@ export class ComponentBase<P = any, S = any> implements IComponentBase<P, S> {
     }
   }
 
-  removeNode(node: any) {
-    node.children?.forEach((child: any) => child.instanse?.removeNode(child));
+  removeNode(node: INode) {
+    node.children?.forEach((child: INode) => child.instanse?.removeNode(child));
     node.instanse.isMounted = false;
     return node?.instanse?.componentWillUnmount
-      ? node.instanse.componentWillUnmount(node.props)
+      ? node.instanse.componentWillUnmount(node.props, this.state)
       : 0; // call componentWillUnmount
   }
 
-  addNode(node: any) {
+  addNode(node: INode) {
     node.instanse = new node.type(node.props); // create node by type
     node.instanse.parent = this; // link to parent
     node.instanse.app = this.app; // link to application
@@ -59,17 +60,17 @@ export class ComponentBase<P = any, S = any> implements IComponentBase<P, S> {
       node.instanse.componentWillMount(node.props); // call componentWillMount
   }
 
-  addTextNode(node: any) {}
+  addTextNode?(node: Element): INode;
 
   update(props = this.props) {
     this.props = props; // update props
-    const rendered = this.render && this.render(); // render node
+    const rendered: any = this.render && this.render(); // render node
 
-    let children =
+    let children: INode[] =
       rendered?.type === createFragment ? [rendered.children] : [rendered]; // get children node
     children = (children as any).flat(3);
 
-    const temp: any[] = []; // temporary rendered nods
+    const temp: INode[] = []; // temporary rendered nods
 
     // loop
     for (const idx in children) {
@@ -77,7 +78,7 @@ export class ComponentBase<P = any, S = any> implements IComponentBase<P, S> {
         return this;
       }
 
-      let child = children[idx];
+      let child: INode = children[idx] as INode;
 
       // if node is empty or false
       if (!child) {
@@ -90,7 +91,7 @@ export class ComponentBase<P = any, S = any> implements IComponentBase<P, S> {
       }
 
       child.key = child?.props?.key ?? idx;
-      const old = this.#prevChildren.find((o) => o.key === child.key); // if exists prev render step node
+      const old = this.#prevChildren.find((o: INode) => o.key === child.key); // if exists prev render step node
 
       // if node exist on prev step but not now
       // use getChildIndex
@@ -109,8 +110,14 @@ export class ComponentBase<P = any, S = any> implements IComponentBase<P, S> {
         child?.type?.type === ComponentBase.type &&
         old.key === child.key
       ) {
-        old?.instanse?.componentWillUpdate &&
-          old.instanse.componentWillUpdate(child.props); // call componentWillUpdate
+        old.instanse.componentWillUpdate &&
+          old.instanse.componentWillUpdate(child.props, this.state); // call componentWillUpdate
+        const needUpdate =
+          old.instanse.componentShouldUpdate &&
+          old.instanse.componentShouldUpdate(child.props, this.state); // call componentShouldUpdate
+        if (needUpdate ?? false) {
+          continue;
+        }
         child.instanse = old.instanse.update(child.props); // update node
       }
 
@@ -118,8 +125,8 @@ export class ComponentBase<P = any, S = any> implements IComponentBase<P, S> {
     }
 
     for (const old of this.#prevChildren) {
-      if (!temp.find((tmp) => tmp.key === old.key)) {
-        this.removeNode(old);
+      if (!temp.find((tmp: INode) => tmp.key === (old as INode).key)) {
+        this.removeNode(old as INode);
       }
     }
 
@@ -143,10 +150,9 @@ export class ComponentBase<P = any, S = any> implements IComponentBase<P, S> {
   }
 
   componentWillMount?(props: P): void;
-  componentDidMount?(props: P, state: S): void;
   componentWillUpdate?(props: P, state: S): void;
+  componentShouldUpdate?(props: P, state: S): boolean;
   componentDidUpdate?(props: P, state: S): void;
-  componentWillUnmount?(props: P): void;
-  componentDidUnmount?(props: P, state: S): void;
+  componentWillUnmount?(props: P): number | void;
   render?(): any;
 }
