@@ -1,5 +1,6 @@
 export * from "./scene";
 export * from "./sprite";
+export * from "./tilingSprite";
 export * from "./texture";
 export * from "./filter";
 export * from "./router";

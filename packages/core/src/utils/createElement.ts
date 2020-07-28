@@ -5,7 +5,7 @@ export interface INode {
   props?: any;
   children?: INode[];
   instanse?: any;
-  deleteTimer?: number;
+  deleteTimer?: any;
   key?: string;
 }
 

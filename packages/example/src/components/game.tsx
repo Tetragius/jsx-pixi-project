@@ -6,6 +6,8 @@ import {
   SFX,
   Filter,
   Mask,
+  TilingSprite,
+  Texture,
 } from "@tetragius/jsx-pixi-components";
 import { createHashHistory } from "history";
 import { Screen } from "./screen";
@@ -196,6 +198,19 @@ export class Game extends Scene<any, State> {
             />
             <Mask key="msk" texture={"msk.png"} />
             <Filter builtIn="BlurFilter" builtInArgs={[this.state.blur]} />
+            <TilingSprite
+              texture="bullet.png"
+              anchor={0.5}
+              x={300}
+              y={300}
+              width={100}
+              height={4}
+            >
+              <Filter builtIn="BlurFilter" builtInArgs={[5]} />
+            </TilingSprite>
+            <TilingSprite anchor={0.5} x={300} y={400} width={100} height={4}>
+              <Texture src="bullet.png" />
+            </TilingSprite>
           </Screen>
         </Route>
       </Router>
