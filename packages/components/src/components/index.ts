@@ -5,3 +5,4 @@ export * from "./filter";
 export * from "./router";
 export * from "./route";
 export * from "./audio";
+export * from "./video";

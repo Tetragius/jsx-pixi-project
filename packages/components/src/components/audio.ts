@@ -29,6 +29,7 @@ export class SFX extends Component<AudioProps> {
     this.audioElement.autoplay = this.props.autoplay;
     this.audioElement.loop = props.repeat;
     this.audioElement.volume = props.volume;
+
     if (this.props.src !== props.src) {
       this.source.src = props.src;
       this.audioElement.load();
