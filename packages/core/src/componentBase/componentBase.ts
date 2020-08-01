@@ -1,21 +1,11 @@
 import { Application } from "pixi.js";
-import { PropsWithEvents } from "../helpers";
-import { createFragment, INode, Element } from "../utils";
-
-export type IComponentBaseProps<P = any> = P & {
-  key?: string;
-  children?: Element[];
-  ref?: (ref?: ComponentBase) => void | { current: ComponentBase };
-};
-
-export interface IComponentBase<P = any, S = any> {
-  props: PropsWithEvents<IComponentBaseProps<P>>;
-  state: S;
-  parent?: ComponentBase;
-  app: Application;
-  isMounted: boolean;
-  setState(state: Partial<S>): void;
-}
+import { createFragment } from "../utils";
+import {
+  IComponentBase,
+  INode,
+  PropsWithEvents,
+  IComponentBaseProps,
+} from "../declaration";
 
 export class ComponentBase<P = any, S = any> implements IComponentBase<P, S> {
   static type = Symbol("component");
@@ -25,7 +15,7 @@ export class ComponentBase<P = any, S = any> implements IComponentBase<P, S> {
   parent?: ComponentBase;
   app: Application;
 
-  #prevChildren: INode[] = [];
+  prevChildren: INode[] = [];
 
   props: PropsWithEvents<IComponentBaseProps<P>>;
   state: S;
@@ -44,7 +34,7 @@ export class ComponentBase<P = any, S = any> implements IComponentBase<P, S> {
     }
   }
 
-  removeNode(node: INode) {
+  removeNode(node: INode): number {
     node.children?.forEach((child: INode) => child.instanse?.removeNode(child));
     node.instanse.isMounted = false;
     return node?.instanse?.componentWillUnmount
@@ -60,7 +50,7 @@ export class ComponentBase<P = any, S = any> implements IComponentBase<P, S> {
       node.instanse.componentWillMount(node.props); // call componentWillMount
   }
 
-  addTextNode?(node: Element): INode;
+  addTextNode?(node: string): INode;
 
   update(props = this.props) {
     this.props = props; // update props
@@ -91,7 +81,7 @@ export class ComponentBase<P = any, S = any> implements IComponentBase<P, S> {
       }
 
       child.key = child?.props?.key ?? idx;
-      const old = this.#prevChildren.find((o: INode) => o.key === child.key); // if exists prev render step node
+      const old = this.prevChildren.find((o: INode) => o.key === child.key); // if exists prev render step node
 
       // if node exist on prev step but not now
       // use getChildIndex
@@ -124,13 +114,13 @@ export class ComponentBase<P = any, S = any> implements IComponentBase<P, S> {
       temp.push(child); // temp prevrender array
     }
 
-    for (const old of this.#prevChildren) {
+    for (const old of this.prevChildren) {
       if (!temp.find((tmp: INode) => tmp.key === (old as INode).key)) {
         this.removeNode(old as INode);
       }
     }
 
-    this.#prevChildren = temp; // update prevRender for next step
+    this.prevChildren = temp; // update prevRender for next step
 
     this.componentDidUpdate && this.componentDidUpdate(props, this.state); // call componentDidUpdate
     return this; // return self

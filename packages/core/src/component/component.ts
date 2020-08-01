@@ -1,23 +1,15 @@
 import { Container, Text, Ticker, TextStyle } from "pixi.js";
 import { eventsFromProps, removeEvents } from "../helpers";
-import { ComponentBase, IComponentBaseProps } from "../componentBase";
-import { INode } from "../utils";
-
-export interface IComponentProps extends IComponentBaseProps {
-  textStyle?: TextStyle;
-}
-
-export interface IComponent<P = any, S = any> {
-  container: Container;
-  ticker?: Ticker;
-}
+import { ComponentBase } from "../componentBase";
+import { IComponentProps, IComponent, INode } from "../declaration";
 
 export class Component<P = any, S = any>
   extends ComponentBase<P & IComponentProps, S>
   implements IComponent<P & IComponentProps, S> {
   container: Container = new Container();
   ticker?: Ticker;
-  parent?: Component;
+  parent?: IComponent;
+  prevChildren: INode[] = [];
 
   constructor(props: P & IComponentProps) {
     super(props);
@@ -38,6 +30,7 @@ export class Component<P = any, S = any>
     } else {
       this.container.removeChild(node.instanse.container); // remove node from parent container
     }
+    return delay;
   }
 
   addNode(node: INode) {
@@ -47,7 +40,7 @@ export class Component<P = any, S = any>
     }
   }
 
-  addTextNode(text: string) {
+  addTextNode(text: string): INode {
     const node = {
       instanse: {
         container: new Text(

@@ -1,13 +1,4 @@
-export type Element = INode | string | boolean | undefined;
-
-export interface INode {
-  type?: any;
-  props?: any;
-  children?: INode[];
-  instanse?: any;
-  deleteTimer?: any;
-  key?: string;
-}
+import { INode } from "../declaration";
 
 export function createElement(type: any, props: any, ...children: any): INode {
   props = props ?? {};

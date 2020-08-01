@@ -199,6 +199,7 @@ export class Game extends Scene<any, State> {
             <Mask key="msk" texture={"msk.png"} />
             <Filter builtIn="BlurFilter" builtInArgs={[this.state.blur]} />
             <TilingSprite
+              key={"k"}
               texture="bullet.png"
               anchor={0.5}
               x={300}
@@ -208,7 +209,14 @@ export class Game extends Scene<any, State> {
             >
               <Filter builtIn="BlurFilter" builtInArgs={[5]} />
             </TilingSprite>
-            <TilingSprite anchor={0.5} x={300} y={400} width={100} height={4}>
+            <TilingSprite
+              key={"kk"}
+              anchor={0.5}
+              x={300}
+              y={400}
+              width={100}
+              height={4}
+            >
               <Texture src="bullet.png" />
             </TilingSprite>
           </Screen>

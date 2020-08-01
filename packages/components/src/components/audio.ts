@@ -60,8 +60,4 @@ export class SFX extends ComponentBase<AudioProps> {
       this.audioElement.remove();
     }
   }
-
-  render(): any {
-    return null;
-  }
 }
