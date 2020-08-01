@@ -10,7 +10,7 @@ interface Props {
 export class Slider extends Scene<Props> {
   state = {
     value: this.props.value,
-    x: this.props.value * 1.5 ,
+    x: this.props.value * 1.5,
   };
 
   data: any = {};
@@ -35,7 +35,9 @@ export class Slider extends Scene<Props> {
 
   onDragMove = () => {
     if (this.dragging) {
-      const newPosition = this.data.getLocalPosition(this.ref.current);
+      const newPosition = this.data.getLocalPosition(
+        this.ref.current.container
+      );
       if (newPosition.x >= 25 && newPosition.x <= 175) {
         this.setState({ x: newPosition.x - 25 });
         this.props.onChange((newPosition.x - 25) / 1.5);
@@ -43,7 +45,7 @@ export class Slider extends Scene<Props> {
     }
   };
 
-  render(): void {
+  render() {
     return (
       <Scene ref={this.ref}>
         <Sprite texture="line.png" anchor={0} />

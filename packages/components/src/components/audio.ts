@@ -1,7 +1,6 @@
-import { Component } from "@tetragius/jsx-pixi";
+import { ComponentBase } from "@tetragius/jsx-pixi";
 
 interface AudioProps {
-  key: string;
   src: string;
   autoplay?: boolean;
   repeat?: boolean;
@@ -9,7 +8,7 @@ interface AudioProps {
   onEnd?(): void;
 }
 
-export class SFX extends Component<AudioProps> {
+export class SFX extends ComponentBase<AudioProps> {
   audioElement: HTMLAudioElement;
   source: HTMLSourceElement;
 
@@ -57,13 +56,9 @@ export class SFX extends Component<AudioProps> {
     };
   }
 
-  componentDidUnmount() {
+  componentWillUnmount() {
     if (this.audioElement && this.props.repeat) {
       this.audioElement.remove();
     }
-  }
-
-  render(): any {
-    return null;
   }
 }

@@ -1,5 +1,5 @@
-import { Component, PropsWithChildren } from "@tetragius/jsx-pixi";
-import { Filter } from ".";
+import { Component } from "@tetragius/jsx-pixi";
+import { Filter } from "pixi.js";
 
 type Pivot = {
   x?: number;
@@ -15,17 +15,10 @@ interface SceneProps {
   filters?: Filter[];
 }
 
-const filterFromChildren = (children?: any) => {
-  if (!children) {
-    return null;
-  }
-  const filters = children.filter((c: any) => c.type === Filter);
-  return filters.map((f: any) => new f.type(f.props).filter);
-};
-
 export class Scene<P = any, S = any> extends Component<P & SceneProps, S> {
   constructor(props: P & SceneProps) {
     super(props);
+    this.container.filters = this.props.filters || [];
   }
 
   componentWillMount() {
@@ -35,13 +28,13 @@ export class Scene<P = any, S = any> extends Component<P & SceneProps, S> {
     this.container.height = this.props.height ?? this.app.stage.height;
     this.container.pivot.x = this.props.pivot?.x ?? this.container.width / 2;
     this.container.pivot.y = this.props.pivot?.y ?? this.container.height / 2;
-    this.container.filters =
-      this.props.filters || filterFromChildren(this.props.children);
   }
 
-  componentWillUpdate(props: PropsWithChildren<SceneProps>) {
-    this.container.filters =
-      props.filters || filterFromChildren(props.children);
+  componentWillUpdate(props: SceneProps) {
+    this.container.filters = [
+      ...this.container.filters,
+      ...(props.filters || []),
+    ];
     this.container.x = props.x ?? 0;
     this.container.y = props.y ?? 0;
   }
