@@ -1,10 +1,10 @@
-import { Scene } from "./scene";
+import { Component } from "@tetragius/jsx-pixi";
 
 interface RouteProps {
   history?: any;
 }
 
-export class Router extends Scene {
+export class Router extends Component<RouteProps> {
   unlisten: any;
   constructor(props: RouteProps) {
     super(props);
@@ -16,7 +16,7 @@ export class Router extends Scene {
     this.unlisten = this.props.history.listen(this.listener);
   }
 
-  componentDidUnmount() {
+  componentWillUnmount() {
     this.unlisten();
   }
 

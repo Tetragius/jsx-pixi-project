@@ -6,7 +6,7 @@ export class Bullet extends Scene {
     super(props);
   }
 
-  render(): void {
+  render() {
     return (
       <Sprite texture="bullet.png" angle={this.props.angle}>
         <SFX src="shoot.mp3" />
