@@ -19,7 +19,7 @@ Easily create 2D games (or application) like Visual Novels or jrpg using a compo
 
 (at the beginning of the movement, tacnk can disappear as frames are loaded, I have not yet done a texture loader)
 
-[DEMO](https://tetragius.github.io/jsx-pixi-project/packages/example/dist/#/a)
+[DEMO](https://tetragius.github.io/jsx-pixi-project/packages/example/dist/)
 
 ## Plans
 

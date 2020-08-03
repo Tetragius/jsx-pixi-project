@@ -7,6 +7,12 @@ import { ObservablePoint } from "pixi.js";
 interface State {
   layers: Array<string[]>;
   layerIdx: number;
+  isWalk?: boolean;
+  isStay?: boolean;
+  isGunIn?: boolean;
+  isGunInRequest?: boolean;
+  isStayWithGun?: boolean;
+  isGunOut?: boolean;
 }
 
 export class Game extends Component<any, State> {
@@ -32,22 +38,74 @@ export class Game extends Component<any, State> {
         "mountain/4.png",
       ],
     ],
+    isStay: true,
+    isWalk: false,
+    isGunIn: false,
+    isGunInRequest: false,
+    isGunOut: false,
+    isStayWithGun: false,
   };
 
   animation() {
+    //if (this.state.isWalk) {
     this.setState({ layerIdx: (this.state.layerIdx + 0.005) % 3 });
+    //}
   }
+
+  handleClick = () => {
+    if (this.state.isStay) {
+      this.setState({ isWalk: true, isStay: false });
+      return;
+    }
+    if (this.state.isWalk) {
+      this.setState({ isGunInRequest: true });
+      return;
+    }
+    if (this.state.isStayWithGun) {
+      this.setState({ isStayWithGun: false, isGunOut: true });
+      return;
+    }
+  };
+
+  handleAnimationEnd = () => {
+    if (this.state.isGunInRequest) {
+      this.setState({ isGunIn: true, isWalk: false, isGunInRequest: false });
+      return;
+    }
+    if (this.state.isGunIn) {
+      this.setState({ isStayWithGun: true, isGunIn: false });
+      return;
+    }
+    if (this.state.isGunOut) {
+      this.setState({ isStay: true, isGunOut: false });
+      return;
+    }
+  };
 
   render() {
     const idx = Math.floor(this.state.layerIdx);
     return (
       <>
         <Scene
+          onClick={this.handleClick}
           y={this.app.stage.height}
           scale={new ObservablePoint(null, null, 2, 2)}
         >
-          <Parallax width={window.innerWidth} layers={this.state.layers[idx]} />
-          <Detective x={50} y={-16} />
+          <Parallax
+            move={this.state.isWalk}
+            width={window.innerWidth}
+            layers={this.state.layers[idx]}
+          />
+          <Detective
+            isStay={this.state.isStay}
+            isWalk={this.state.isWalk}
+            isGunIn={this.state.isGunIn}
+            isGunOut={this.state.isGunOut}
+            isStayWithGun={this.state.isStayWithGun}
+            onEndAnimation={this.handleAnimationEnd}
+            x={50}
+            y={-16}
+          />
         </Scene>
         <SFX src="bkg.mp3" repeat />
       </>

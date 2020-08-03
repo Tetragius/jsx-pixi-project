@@ -4,6 +4,7 @@ import { Component } from "@tetragius/jsx-pixi";
 interface Props {
   layers?: string[];
   width?: number;
+  move?: boolean;
 }
 
 interface State {
@@ -19,10 +20,12 @@ export class Parallax extends Component<Props, State> {
   state: State = { parallaxX: this.props.layers.map(() => 0) };
 
   animation() {
-    const newParallaxX = this.state.parallaxX.map((x, index) =>
-      x > -this.props.width ? x - index * 0.2 : 0
-    );
-    this.setState({ parallaxX: newParallaxX });
+    if (this.props.move) {
+      const newParallaxX = this.state.parallaxX.map((x, index) =>
+        x > -this.props.width ? x - index * 0.2 : 0
+      );
+      this.setState({ parallaxX: newParallaxX });
+    }
   }
 
   componentWillUpdate(props: Props) {
