@@ -28,6 +28,8 @@ export class Filter extends ComponentBase<FilterProps> {
   }
 
   componentWillMount() {
+    (this.parent as any).container.filters =
+      (this.parent as any).container.filters || [];
     (this.parent as any).container.filters.push(this.filter);
   }
 
@@ -44,14 +46,5 @@ export class Filter extends ComponentBase<FilterProps> {
     } else {
       this.filter = new PIXIFilter(vShader, fShader, uniform);
     }
-    const index = (this.parent as any).container.filters.indexOf(this.filter);
-    (this.parent as any).container.filters.splice(index, 1);
-    (this.parent as any).container.filters.push(this.filter);
-  }
-
-  componentWillUnmount() {
-    // TODO
-    const index = (this.parent as any).container.filters.indexOf(this.filter);
-    (this.parent as any).container.filters.splice(index, 1);
   }
 }

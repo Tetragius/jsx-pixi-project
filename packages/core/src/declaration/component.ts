@@ -3,7 +3,7 @@ import { TextStyle, Container, Ticker } from "pixi.js";
 import { IComponentBase } from "./componentBase";
 
 export interface IComponentProps extends IComponentBaseProps {
-  textStyle?: TextStyle;
+  textStyle?: Partial<TextStyle>;
 }
 
 export interface IComponent<P = any, S = any>

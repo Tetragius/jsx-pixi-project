@@ -3,7 +3,7 @@ import { PropsWithEvents, INode } from ".";
 
 export type IComponentBaseProps<P = any> = P & {
   key?: string;
-  children?: JSX.Element[] | JSX.Element | null | false;
+  children?: JSX.Element[] | JSX.Element | null | false | string;
   ref?: (ref?: IComponentBase) => void | { current: IComponentBase };
 };
 
@@ -22,8 +22,7 @@ export interface IComponentBase<P = any, S = any, T = any> {
   removeNode(node: INode): number;
   componentWillMount?(props: P): void;
   componentWillUpdate?(props: P, state: S): void;
-  componentShouldUpdate?(props: P, state: S): boolean;
   componentDidUpdate?(props: P, state: S): void;
   componentWillUnmount?(props: P): number | void;
-  render?(): JSX.Element[] | JSX.Element | null | false;
+  render?(): JSX.Element[] | JSX.Element | null | false | string;
 }

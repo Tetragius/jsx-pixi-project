@@ -12,6 +12,10 @@ export const eventsFromProps = (container: Container, props: Events) => {
   if (props.onKeyUp) {
     document.body.addEventListener("keyup", props.onKeyUp);
   }
+  // system
+  if (props.onResize) {
+    window.addEventListener("resize", props.onResize);
+  }
   // moouse
   if (props.onClick) {
     container.interactive = true;
@@ -43,10 +47,10 @@ export const eventsFromProps = (container: Container, props: Events) => {
     container.buttonMode = true;
     container.on("mouseover", props.onMouseOver);
   }
-  if (props.onMouseUpUoutside) {
+  if (props.onMouseUpOutside) {
     container.interactive = true;
     container.buttonMode = true;
-    container.on("mouseupoutside", props.onMouseUpUoutside);
+    container.on("mouseupoutside", props.onMouseUpOutside);
   }
   if (props.onPointerCancel) {
     container.interactive = true;
@@ -145,5 +149,9 @@ export const removeEvents = (props: Events) => {
   }
   if (props?.onKeyUp) {
     document.body.removeEventListener("keyup", props?.onKeyUp);
+  }
+  // system
+  if (props.onResize) {
+    window.removeEventListener("resize", props.onResize);
   }
 };

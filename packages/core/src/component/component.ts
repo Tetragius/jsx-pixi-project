@@ -49,6 +49,7 @@ export class Component<P = any, S = any>
         ),
       },
     };
+    node.instanse.container.anchor.set(0.5);
     this.container.addChild(node.instanse.container); // append node to parent container
     return node;
   }
@@ -67,7 +68,7 @@ export class Component<P = any, S = any>
   removed() {
     this.isMounted = false;
     if (this.animation && this.ticker) {
-      this.animation && this.ticker.remove(this.animation, this);
+      this.ticker.remove(this.animation, this);
       this.ticker.destroy();
     }
     removeEvents(this.props);

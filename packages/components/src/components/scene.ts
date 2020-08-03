@@ -1,18 +1,9 @@
 import { Component } from "@tetragius/jsx-pixi";
-import { Filter } from "pixi.js";
+import { Container } from "pixi.js";
+import { setExternalProps } from "../utils/setExternalProps";
 
-type Pivot = {
-  x?: number;
-  y?: number;
-};
-
-interface SceneProps {
-  x?: number;
-  y?: number;
-  width?: number;
-  height?: number;
-  pivot?: Pivot;
-  filters?: Filter[];
+interface SceneProps extends Partial<Omit<Container, "children" | "anchor">> {
+  anchor?: number;
 }
 
 export class Scene<P = any, S = any> extends Component<P & SceneProps, S> {
@@ -22,6 +13,7 @@ export class Scene<P = any, S = any> extends Component<P & SceneProps, S> {
   }
 
   componentWillMount() {
+    setExternalProps(this.container, this.props);
     this.container.x = this.props.x ?? 0;
     this.container.y = this.props.y ?? 0;
     this.container.width = this.props.width ?? this.app.stage.width;
@@ -30,9 +22,10 @@ export class Scene<P = any, S = any> extends Component<P & SceneProps, S> {
     this.container.pivot.y = this.props.pivot?.y ?? this.container.height / 2;
   }
 
-  componentWillUpdate(props: SceneProps) {
+  componentWillUpdate(props: SceneProps & P) {
+    setExternalProps(this.container, props);
     this.container.filters = [
-      ...this.container.filters,
+      ...(this.container.filters || []),
       ...(props.filters || []),
     ];
     this.container.x = props.x ?? 0;

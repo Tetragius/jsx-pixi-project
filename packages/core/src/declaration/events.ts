@@ -5,13 +5,15 @@ export interface Events {
   onKeyDown?(e: KeyboardEvent): void;
   onKeyUp?(e: KeyboardEvent): void;
 
+  onResize?(e: Event): void;
+
   onClick?(e: InteractionEvent): void;
   onMouseUp?(e: InteractionEvent): void;
   onMouseDown?(e: InteractionEvent): void;
   onMouseMove?(e: InteractionEvent): void;
   onMouseOut?(e: InteractionEvent): void;
   onMouseOver?(e: InteractionEvent): void;
-  onMouseUpUoutside?(e: InteractionEvent): void;
+  onMouseUpOutside?(e: InteractionEvent): void;
 
   onPointerCancel?(e: InteractionEvent): void;
   onPointerDown?(e: InteractionEvent): void;

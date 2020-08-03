@@ -1,16 +1,12 @@
-import { Sprite as PIXISprite, Texture as PIXITexture, Filter } from "pixi.js";
+import { Sprite as PIXISprite, Texture as PIXITexture } from "pixi.js";
 import { Component, PropsWithEvents } from "@tetragius/jsx-pixi";
+import { setExternalProps } from "../utils/setExternalProps";
 
-export interface SpriteProps extends PropsWithEvents {
-  x?: number;
-  y?: number;
-  width?: number;
-  height?: number;
-  anchor?: number;
-  texture?: string;
-  filters?: Filter[];
-  rotation?: number;
-  angle?: number;
+export interface SpriteProps
+  extends PropsWithEvents,
+    Partial<Omit<PIXISprite, "children" | "anchor">> {
+  src?: string;
+  anchor?: number | { x: number; y: number };
 }
 
 export class Sprite extends Component<SpriteProps> {
@@ -18,28 +14,25 @@ export class Sprite extends Component<SpriteProps> {
   texture: PIXITexture;
   constructor(props: SpriteProps) {
     super(props);
-    this.props.texture && (this.texture = PIXITexture.from(this.props.texture));
+    this.props.src && (this.texture = PIXITexture.from(this.props.src));
     this.sprite = new PIXISprite(this.texture);
+    this.sprite.anchor.set(0.5);
+    this.texture?.baseTexture.on("loaded", () => {
+      this.sprite.height = this.texture.height;
+      this.sprite.width = this.texture.width;
+    });
+    setExternalProps(this.sprite, this.props);
     this.container.addChild(this.sprite);
-    this.sprite.anchor.set(this.props.anchor ?? 0.5);
-    this.sprite.x = this.props.x ?? 0;
-    this.sprite.y = this.props.y ?? 0;
-    this.sprite.rotation = this.props.rotation ?? 0;
-    this.sprite.angle = this.props.angle ?? 0;
-    this.container.filters = this.props.filters || [];
   }
 
   componentWillUpdate(props: SpriteProps) {
     this.container.filters = [
-      ...this.container.filters,
+      ...(this.container.filters || []),
       ...(props.filters || []),
     ];
-    props.texture && (this.texture = PIXITexture.from(props.texture));
+    props.src && (this.texture = PIXITexture.from(props.src));
     this.sprite.texture = this.texture;
-    this.sprite.x = props.x ?? 0;
-    this.sprite.y = props.y ?? 0;
-    this.sprite.rotation = props.rotation ?? 0;
-    this.sprite.angle = props.angle ?? 0;
+    setExternalProps(this.sprite, props);
   }
 
   render() {

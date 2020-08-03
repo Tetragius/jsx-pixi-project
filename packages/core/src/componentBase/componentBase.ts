@@ -102,12 +102,6 @@ export class ComponentBase<P = any, S = any> implements IComponentBase<P, S> {
       ) {
         old.instanse.componentWillUpdate &&
           old.instanse.componentWillUpdate(child.props, this.state); // call componentWillUpdate
-        const needUpdate =
-          old.instanse.componentShouldUpdate &&
-          old.instanse.componentShouldUpdate(child.props, this.state); // call componentShouldUpdate
-        if (needUpdate ?? false) {
-          continue;
-        }
         child.instanse = old.instanse.update(child.props); // update node
       }
 
@@ -141,7 +135,6 @@ export class ComponentBase<P = any, S = any> implements IComponentBase<P, S> {
 
   componentWillMount?(props: P): void;
   componentWillUpdate?(props: P, state: S): void;
-  componentShouldUpdate?(props: P, state: S): boolean;
   componentDidUpdate?(props: P, state: S): void;
   componentWillUnmount?(props: P): number | void;
   render?(): any;
