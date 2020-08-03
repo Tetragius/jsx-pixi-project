@@ -7,6 +7,7 @@ interface Props {
   isGunIn?: boolean;
   isStayWithGun?: boolean;
   isGunOut?: boolean;
+  isPunch?: boolean;
   onEndAnimation?: Function;
 }
 
@@ -42,6 +43,15 @@ export class Detective extends Component<Props, State> {
         this.props.onEndAnimation();
       }
     }
+    if (this.props.isPunch) {
+      if (this.state.frame <= 9) {
+        this.setState({ frame: 10 });
+      }
+      this.setState({ frame: (this.state.frame + 0.1) % 14 });
+      if (this.state.frame >= 13) {
+        this.props.onEndAnimation();
+      }
+    }
     if (this.props.isStay) {
       this.setState({ frame: 6 });
     }
@@ -64,6 +74,10 @@ export class Detective extends Component<Props, State> {
         {frame === 7 && <Texture src="draw gun/Layer-2.png" />}
         {frame === 8 && <Texture src="draw gun/Layer-3.png" />}
         {frame === 9 && <Texture src="draw gun/Layer-4.png" />}
+        {frame === 10 && <Texture src="punch/Layer-1.png" />}
+        {frame === 11 && <Texture src="punch/Layer-2.png" />}
+        {frame === 12 && <Texture src="punch/Layer-3.png" />}
+        {frame === 13 && <Texture src="punch/Layer-4.png" />}
       </Sprite>
     );
   }
