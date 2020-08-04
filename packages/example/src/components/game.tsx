@@ -18,6 +18,7 @@ interface State {
   isPunchRequest?: boolean;
   enemyX?: number;
   isEnemyHit?: boolean;
+  score?: number;
 }
 
 export class Game extends Component<any, State> {
@@ -52,6 +53,7 @@ export class Game extends Component<any, State> {
     isPunchRequest: false,
     isPunch: false,
     enemyX: 500,
+    score: 0,
     isEnemyHit: false,
   };
 
@@ -98,7 +100,7 @@ export class Game extends Component<any, State> {
     // }
     if (this.state.isPunch) {
       if (this.state.enemyX < 150 && this.state.enemyX > 100) {
-        this.setState({ isEnemyHit: true });
+        this.setState({ isEnemyHit: true, score: this.state.score + 1 });
       }
       this.setState({ isWalk: true, isPunch: false });
       return;
@@ -142,8 +144,18 @@ export class Game extends Component<any, State> {
             x={this.state.enemyX}
             y={-35}
           />
+          <Scene
+            y={-140}
+            x={50}
+            textStyle={{
+              fontFamily: "Arial",
+              fontSize: 16,
+              fontWeight: "bold",
+              fill: ["#876286", "#2f2238"],
+            }}
+          >{`Score: ${this.state.score}`}</Scene>
         </Scene>
-        <SFX src="bkg.mp3" repeat />
+        <SFX src="bkg.mp3" volume={0.3} repeat />
       </>
     );
   }
