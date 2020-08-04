@@ -99,7 +99,7 @@ export class Game extends Component<any, State> {
     //   return;
     // }
     if (this.state.isPunch) {
-      if (this.state.enemyX < 150 && this.state.enemyX > 100) {
+      if (this.state.enemyX < 150 && this.state.enemyX > 130) {
         this.setState({ isEnemyHit: true, score: this.state.score + 1 });
       }
       this.setState({ isWalk: true, isPunch: false });
@@ -117,6 +117,7 @@ export class Game extends Component<any, State> {
       <>
         <Scene
           onClick={this.handleClick}
+          onTap={this.handleClick}
           onKeyDown={this.handleClick}
           y={this.app.stage.height}
           height={800}
@@ -135,7 +136,7 @@ export class Game extends Component<any, State> {
             isPunch={this.state.isPunch}
             isStayWithGun={this.state.isStayWithGun}
             onEndAnimation={this.handleAnimationEnd}
-            x={100}
+            x={130}
             y={-16}
           />
           <Enemy
@@ -146,7 +147,7 @@ export class Game extends Component<any, State> {
           />
           <Scene
             y={-140}
-            x={50}
+            x={150}
             textStyle={{
               fontFamily: "Arial",
               fontSize: 16,
