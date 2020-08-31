@@ -15,7 +15,7 @@ What's the difference from [React PIXI](https://reactpixi.org/)? It's not react 
 
 Easily create 2D games (or application) like Visual Novels or jrpg using a component approach.
 
-[Watch the video](https://youtu.be/87vSiy1S91Q)
+[Watch the video](https://youtu.be/jBSE0MPASEE)
 
 (at the beginning of the movement, tacnk can disappear as frames are loaded, I have not yet done a texture loader)
 
